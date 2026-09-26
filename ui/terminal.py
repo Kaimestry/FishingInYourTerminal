@@ -1,21 +1,5 @@
 import os
-RESET = "\033[0m"
-
-RED = "\033[31m"
-GREEN = "\033[32m"
-YELLOW = "\033[33m"
-BLUE = "\033[34m"
-MAGENTA = "\033[35m"
-CYAN = "\033[36m"
-WHITE = "\033[37m"
-
-RARITY_COLORS = {
-    "common": WHITE,
-    "uncommon": GREEN,
-    "rare": BLUE,
-    "epic": MAGENTA,
-    "legendary": YELLOW,
-}
+from ui.style import RARITY_COLORS, RESET, YELLOW, text_box
 
 def clear_terminal():
     os.system("cls" if os.name == "nt" else "clear")
@@ -67,38 +51,31 @@ def display_inventory():
     bait = "Worm × 12"
     money = 1250
 
-    print("╔══════════════════════════════════════════╗")
-    print("║                INVENTORY                 ║")
-    print("╠══════════════════════════════════════════╣")
+    #PRINTING
+    box_length = 40
+    print(text_box("t", box_length))
+    print(text_box("text", box_length, "INVENTORY"))
+    print(text_box("text", box_length, f"{YELLOW}MONEY - {money:,} (G){RESET}"))
+    print(text_box("s", box_length))
 
-    print("║                                          ║")
-    print("║  RECENT CATCHES                          ║")
-    print("║  ──────────────────────────────────────  ║")
+    print("                                          ")
+    print("  RECENT CATCHES                          ")
+    print("  ──────────────────────────────────────  ")
 
     for fish in recent_fish:
         print(
-            f"║  🎣 {fish['name']:<20} "
-            f"{fish['rarity'].capitalize():<12} ║"
+            f"  🎣 {fish['name']:<20} "
+            f"{fish['rarity'].capitalize():<12} "
         )
 
-    print("║                                          ║")
-    print("║  ROD                                     ║")
-    print("║  ──────────────────────────────────────  ║")
-    print(f"║  🎣 {rod:<36} ║")
+    print()
+    print(f"  ROD - 🎣 {rod}")
+    print()
+    print(f"  BAIT - 🪱  {bait}")
+    print()
 
-    print("║                                          ║")
-    print("║  BAIT                                    ║")
-    print("║  ──────────────────────────────────────  ║")
-    print(f"║  🪱 {bait:<36} ║")
-
-    print("║                                          ║")
-    print("║  MONEY                                   ║")
-    print("║  ──────────────────────────────────────  ║")
-    print(f"║  💰 {money:,} G{'':<31}║")
-
-    print("║                                          ║")
-    print("╠══════════════════════════════════════════╣")
-    print("║ inv!fish → View all fish                 ║")
-    print("║ inv!rod  → View all rods                 ║")
-    print("║ inv!bait → View all bait                 ║")
-    print("╚══════════════════════════════════════════╝")
+    print(text_box("s", box_length))
+    print(text_box("text", box_length, "inv!fish → View all fish"))
+    print(text_box("text", box_length, "inv!rod → View all rods"))
+    print(text_box("text", box_length, "inv!bait → View all baits"))
+    print(text_box("b", box_length))
