@@ -10,7 +10,7 @@ def start_game():
 
     while True:
         print()
-        command = input("> ").lower().strip()
+        command = input("> ").lower().strip() or "fish"
 
         selected_command = None
 

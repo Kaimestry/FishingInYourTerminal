@@ -37,14 +37,68 @@ def print_help():
 
         print(f"{command_text:<20} {data['description']}")
 
+'''
+COMMAND DISPLAY
+'''
 
 def display_catch(fish):
     color = RARITY_COLORS[fish["rarity"]]
+    rarity = fish["rarity"].capitalize()
 
+    print("You caught....")
     print(
-        f"🎣 You caught "
+        f"🎣 "
         f"{color}{fish['name']}{RESET} "
-        f"({color}{fish['rarity']}{RESET})! "
+        f"- {color}{rarity}{RESET} "
         f"🎣"
-
     )
+
+def display_inventory():
+    recent_fish = [
+        {"name": "Salmon", "rarity": "common"},
+        {"name": "Mackerel", "rarity": "common"},
+        {"name": "Swordfish", "rarity": "rare"},
+        {"name": "Cod", "rarity": "common"},
+        {"name": "Tuna", "rarity": "common"},
+        {"name": "Great White Shark", "rarity": "legendary"},
+    ]
+
+    rod = "Basic Fishing Rod"
+    bait = "Worm × 12"
+    money = 1250
+
+    print("╔══════════════════════════════════════════╗")
+    print("║                INVENTORY                 ║")
+    print("╠══════════════════════════════════════════╣")
+
+    print("║                                          ║")
+    print("║  RECENT CATCHES                          ║")
+    print("║  ──────────────────────────────────────  ║")
+
+    for fish in recent_fish:
+        print(
+            f"║  🎣 {fish['name']:<20} "
+            f"{fish['rarity'].capitalize():<12} ║"
+        )
+
+    print("║                                          ║")
+    print("║  ROD                                     ║")
+    print("║  ──────────────────────────────────────  ║")
+    print(f"║  🎣 {rod:<36} ║")
+
+    print("║                                          ║")
+    print("║  BAIT                                    ║")
+    print("║  ──────────────────────────────────────  ║")
+    print(f"║  🪱 {bait:<36} ║")
+
+    print("║                                          ║")
+    print("║  MONEY                                   ║")
+    print("║  ──────────────────────────────────────  ║")
+    print(f"║  💰 {money:,} G{'':<31}║")
+
+    print("║                                          ║")
+    print("╠══════════════════════════════════════════╣")
+    print("║ inv!fish → View all fish                 ║")
+    print("║ inv!rod  → View all rods                 ║")
+    print("║ inv!bait → View all bait                 ║")
+    print("╚══════════════════════════════════════════╝")

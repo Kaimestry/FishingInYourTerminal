@@ -1,5 +1,5 @@
 from game.fishing import fish
-from ui.terminal import display_catch, clear_terminal, print_help
+from ui.terminal import display_catch, clear_terminal, print_help, display_inventory
 
 
 def help_command():
@@ -13,6 +13,9 @@ def fish_command():
         print("You didn't catch anything...")
     else:
         display_catch(caught_fish)
+
+def inventory_command():
+    display_inventory()
 
 
 def quit_command():
@@ -31,6 +34,11 @@ commands = {
         "description": "Go fishing",
         "function": fish_command,
     },
+    "inventory": {
+            "aliases": ["inv"],
+            "description": "Open inventory",
+            "function": inventory_command,
+        },
     "quit": {
         "aliases": ["q"],
         "description": "Exit the game",
