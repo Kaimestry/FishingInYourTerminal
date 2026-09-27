@@ -22,6 +22,9 @@ def quit_command():
     print("Goodbye!")
     return False
 
+def demo_command():
+    pass
+
 
 commands = {
     "help": {
@@ -43,5 +46,10 @@ commands = {
         "aliases": ["q"],
         "description": "Exit the game",
         "function": quit_command,
+    },
+    "debug": {
+        "aliases": ["d"],
+        "description": "Execute most recent tested function",
+        "function": demo_command,
     },
 }

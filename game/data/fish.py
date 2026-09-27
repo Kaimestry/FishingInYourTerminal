@@ -24,3 +24,13 @@ fish_list = [
     {"name": "Whale Shark", "rarity": "legendary"},
     {"name": "Blue Whale", "rarity": "legendary"},
 ]
+
+variant_chances = {
+    "normal": 0.,
+    "baby": 0.2,
+    "large": 0.3,
+    "burning": 0.5,
+    "uranium": 0,
+    "shiny": 0,
+    "shadow": 0,
+}

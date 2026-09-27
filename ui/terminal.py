@@ -1,8 +1,6 @@
 import os
-from ui.style import RARITY_COLORS, RESET, YELLOW, text_box
-
-def clear_terminal():
-    os.system("cls" if os.name == "nt" else "clear")
+from ui.style import RARITY_COLORS, RESET, YELLOW, BLUE, text_box
+from ui.variant_style import *
 
 
 def print_help():
@@ -26,17 +24,29 @@ COMMAND DISPLAY
 '''
 
 def display_catch(fish):
-    color = RARITY_COLORS[fish["rarity"]]
-    rarity = fish["rarity"].capitalize()
+    variant = fish["variant"]
 
-    print("You caught....")
-    print(
-        f"🎣 "
-        f"{color}{fish['name']}{RESET} "
-        f"- {color}{rarity}{RESET} "
-        f"🎣"
-    )
+    if variant == "normal":
+        normal_display(fish)
 
+    elif variant == "baby":
+        baby_display(fish)
+
+    elif variant == "large":
+        large_display(fish)
+
+    elif variant == "burning":
+        burning_display(fish)
+
+    elif variant == "uranium":
+        uranium_display(fish)
+
+    elif variant == "shiny":
+        shiny_display(fish)
+
+    elif variant == "shadow":
+        shadow_display(fish)
+        
 def display_inventory():
     recent_fish = [
         {"name": "Salmon", "rarity": "common"},
@@ -58,24 +68,25 @@ def display_inventory():
     print(text_box("text", box_length, f"{YELLOW}MONEY - {money:,} (G){RESET}"))
     print(text_box("s", box_length))
 
-    print("                                          ")
+    print()
     print("  RECENT CATCHES                          ")
     print("  ──────────────────────────────────────  ")
 
     for fish in recent_fish:
+        color = RARITY_COLORS[fish["rarity"]]
+
         print(
-            f"  🎣 {fish['name']:<20} "
-            f"{fish['rarity'].capitalize():<12} "
-        )
+            f"  🎣 {color}{fish['name']:<25} {fish['rarity'].capitalize():<12}{RESET}"
+            )
 
     print()
+    print("  ──────────────────────────────────────  ")
     print(f"  ROD - 🎣 {rod}")
-    print()
     print(f"  BAIT - 🪱  {bait}")
     print()
 
     print(text_box("s", box_length))
-    print(text_box("text", box_length, "inv!fish → View all fish"))
-    print(text_box("text", box_length, "inv!rod → View all rods"))
-    print(text_box("text", box_length, "inv!bait → View all baits"))
+    print(text_box("text", box_length, f"{BLUE}inv!fish{RESET} → View all fish"))
+    print(text_box("text", box_length, f"{BLUE}inv!rod{RESET} → View all rods"))
+    print(text_box("text", box_length, f"{BLUE}inv!bait{RESET} → View all baits"))
     print(text_box("b", box_length))
