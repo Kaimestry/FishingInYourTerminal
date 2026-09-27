@@ -79,6 +79,10 @@ def changing_color(text, colors, offset):
 
     return f"{colored}{RESET}"
 
+def changing_color_uniform(text, colors, offset):
+    color = colors[offset % len(colors)]
+    return f"{color}{text}{RESET}"
+
 def changing_color_text(
     text,
     colors,
@@ -91,8 +95,12 @@ def changing_color_text(
 
     while time.time() - start < duration:
 
-        # Create the animated text
-        colored = changing_color(text, colors, offset)
+        # Entire text gets the same color
+        colored = changing_color_uniform(
+            text,
+            colors,
+            offset
+        )
 
         # Center it
         visible_length = len(text)
@@ -116,3 +124,33 @@ def changing_color_text(
         offset += 1
 
     print()
+    
+def animate_frame(
+    frame_function,
+    duration=1.5,
+    speed=0.1
+):
+    start = time.time()
+    offset = 0
+
+    # Build the first frame
+    frame = frame_function(offset)
+
+    # Figure out how many terminal lines it occupies
+    frame_height = frame.count("\n") + 1
+
+    while time.time() - start < duration:
+
+        # Build current frame
+        frame = frame_function(offset)
+
+        # Print it
+        print(frame, end="")
+
+        time.sleep(speed)
+
+        # Move cursor back to the top of the frame
+        print(f"\033[{frame_height}A", end="")
+
+        offset += 1
+

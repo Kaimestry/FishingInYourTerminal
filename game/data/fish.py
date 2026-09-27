@@ -27,10 +27,10 @@ fish_list = [
 
 variant_chances = {
     "normal": 0.,
-    "baby": 0.2,
-    "large": 0.3,
-    "burning": 0.5,
-    "uranium": 0,
-    "shiny": 0,
-    "shadow": 0,
+    "baby": 0,
+    "large": 0,
+    "burning": 0.05,
+    "uranium": 0.05,
+    "shiny": 0.2,
+    "shadow": 0.8,
 }
