@@ -1,18 +1,24 @@
 import random
 
-from game.data.fish import fish_list, variant_chances
+from game.data.fish import fish_list
+from game.data.rods import RODS
+from game.data.baits import BAITS
+from game.data.prices import RARITY_PRICES, VARIANT_PRICE_BONUS
 
 
-def fish():
+def fish(state):
 
-    # *Stage 1: Determine whether the player catches anything*
-    luck = roll_luck()
+    # Stage 1: Determine whether the player catches anything
+    caught = roll_catch(state)
 
-    if luck > 0.75:
-        return None
+    # Stage 2: Determine rarity
+    rarity = roll_rarity(state)
 
-    # *Stage 2: Determine rarity*
-    rarity = roll_rarity()
+    # Stage 3: Determine variant
+    variant = roll_variant(state)
+
+    # Stage 4: Determine money
+    money = roll_money(state, rarity, variant)
 
     possible_fish = [
         fish for fish in fish_list
@@ -21,54 +27,73 @@ def fish():
 
     caught_fish = random.choice(possible_fish)
 
-    # *Stage 3: Determine variant*
-    variant = roll_variant()
-
-    caught_fish = {
+    return {
         **caught_fish,
         "variant": variant,
+        "money": money,
+        "caught": caught,
     }
 
-    return caught_fish
+
+def get_luck(state, luck_type):
+    rod_luck = RODS[state.rod]["luck"][luck_type]
+    bait_luck = BAITS[state.bait]["luck"][luck_type]
+
+    return rod_luck + bait_luck
 
 
-'''
-LUCK
-'''
+def roll_catch(state):
+    rod = RODS[state.rod]["luck"]["catch"]
+    bait = BAITS[state.bait]["luck"]["catch"]
+
+    total = rod + bait
+
+    roll = random.random()
+
+    return roll <= total
 
 
-def roll_luck():
-    return random.random()
+def roll_rarity(state):
+    rod = RODS[state.rod]["rarity"]
+    bait = BAITS[state.bait]["rarity"]
 
-
-def roll_rarity():
-
-    luck = roll_luck()
-
-    if luck <= 0.60:
-        return "common"
-
-    elif luck <= 0.85:
-        return "uncommon"
-
-    elif luck <= 0.97:
-        return "rare"
-
-    elif luck <= 0.99:
-        return "epic"
-
-    else:
-        return "legendary"
-
-
-def roll_variant():
-
-    luck = roll_luck()
-
+    roll = random.random()
     cumulative = 0
 
-    for variant, chance in variant_chances.items():
-        cumulative += chance
+    for rarity in rod:
+        total = rod[rarity] + bait[rarity]
+        cumulative += total
 
-        if luck <= cumulative:
+        if roll <= cumulative:
+            return rarity
+
+
+def roll_variant(state):
+    rod = RODS[state.rod]["variants"]
+    bait = BAITS[state.bait]["variants"]
+
+    roll = random.random()
+    cumulative = 0
+
+    for variant in rod:
+        total = rod[variant] + bait[variant]
+        cumulative += total
+
+        if roll <= cumulative:
             return variant
+
+
+def roll_money(state, rarity, variant):
+    money_luck = get_luck(state, "money")
+
+    minimum, maximum = RARITY_PRICES[rarity]
+
+    base_price = random.randint(minimum, maximum)
+
+    variant_bonus = VARIANT_PRICE_BONUS[variant]
+
+    final_price = base_price
+    final_price *= 1 + variant_bonus
+    final_price *= 1 + money_luck
+
+    return round(final_price)

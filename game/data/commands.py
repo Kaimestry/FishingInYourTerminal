@@ -1,29 +1,48 @@
+#game/data/commands.py
+
 from game.fishing import fish
-from ui.terminal import display_catch, clear_terminal, print_help, display_inventory
+from ui.fishing_dialogue import fishing_dialogue
+from ui.terminal import *
 
 
 def help_command():
     print_help()
 
 
-def fish_command():
-    caught_fish = fish()
+def fish_command(state, debug):
+    fishing_dialogue(state, debug)
+    
+    caught_fish = fish(state)
 
-    if caught_fish is None:
-        print("You didn't catch anything...")
+    if caught_fish["caught"]:
+        state.fish_caught += 1
+
+        variant = caught_fish["variant"]
+        state.variant_caught[variant] += 1
+
+        display_catch(state, caught_fish, debug)
     else:
-        display_catch(caught_fish)
+        display_lost_fish(state, caught_fish, debug)
 
-def inventory_command():
-    display_inventory()
+def inventory_command(state):
+    display_inventory(state)
 
 
-def quit_command():
+def quit_command(state):
     print("Goodbye!")
     return False
 
-def demo_command():
-    pass
+def demo_command(state, debug):
+    debug_command(state, debug)
+
+def debug_command(state, debug):
+    print("=== DEBUG STATS ===")
+    print(f"Fish caught: {state.fish_caught}")
+    print()
+
+    print("Variants:")
+    for variant, amount in state.variant_caught.items():
+        print(f"  {variant.capitalize()}: {amount}")
 
 
 commands = {

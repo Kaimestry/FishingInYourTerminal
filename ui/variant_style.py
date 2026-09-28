@@ -1,12 +1,16 @@
 #ui/variant_style.py
 
-from ui.style import *
+import random
 
+from game.data.dialogues import *
+from ui.style import *
 '''
 TEMPLATE
 '''
 def animated_variant_display(
+    state,
     fish,
+    debug,
     message,
     name_text,
     variant_text,
@@ -56,6 +60,11 @@ def animated_variant_display(
             text_box("b"),
         ]) + "\n"
 
+    if state.debug_mode and debug.skip_animation:
+        clear_terminal()
+        print(build_frame(0))
+        return
+
     animate_frame(
         build_frame,
         duration=duration,
@@ -65,10 +74,26 @@ def animated_variant_display(
     clear_terminal()
     print(build_frame(0))
 
+def gradient_text(text, colors, off_index=1):
+    result = []
+    color_index = 0
+
+    for char in text:
+        if char == " ":
+            result.append(char)
+            continue
+
+        result.append(
+            f"{colors[color_index % len(colors)]}{char}{RESET}"
+        )
+        color_index += off_index
+
+    return "".join(result)
+
 '''
 STYLING
 '''
-def normal_display(fish):
+def normal_display(state, fish, debug):
     rarity = fish["rarity"]
     rarity_color = RARITY_COLORS[rarity]
 
@@ -93,10 +118,19 @@ def normal_display(fish):
     print()
     print(text_box("b"))
 
+def normal_lost_display(state, fish, debug):
+    rarity = fish["rarity"]
+    rarity_color = RARITY_COLORS[rarity]
+
+    print(
+        f"Your "
+        f"{fish['name']}"
+        f" - ({rarity_color}{rarity.capitalize()}{RESET}) "
+        f"escaped..."
+    )
+
 BABY_COLOR = hex_color("#E9B3FF")
-
-
-def baby_display(fish):
+def baby_display(state, fish, debug):
     rarity = fish["rarity"]
     rarity_color = RARITY_COLORS[rarity]
 
@@ -137,10 +171,20 @@ def baby_display(fish):
     print()
     print(text_box("b"))
 
+def baby_lost_display(state, fish, debug):
+    rarity = fish["rarity"]
+    rarity_color = RARITY_COLORS[rarity]
+
+    print(
+        f"Your "
+        f"{small_text('baby')} "
+        f"{small_text(fish['name'])}"
+        f" - ({rarity_color}{small_text(rarity.capitalize())}{RESET}) "
+        f"was too small to catch and swam away..."
+    )
+
 BOLD = "\033[1m"
-
-
-def large_display(fish):
+def large_display(state, fish, debug):
     rarity = fish["rarity"]
     rarity_color = RARITY_COLORS[rarity]
 
@@ -177,17 +221,37 @@ def large_display(fish):
     print()
     print(text_box("b"))
 
+def large_lost_display(state, fish, debug):
+    rarity = fish["rarity"]
+    rarity_color = RARITY_COLORS[rarity]
+
+    print(
+        f"Your "
+        f"{BOLD}LARGE {fish['name'].upper()}{RESET}"
+        f" - ({rarity_color}{rarity.upper()}{RESET}) "
+        f"escaped..."
+    )
+
 FIRE_COLORS = [
-    hex_color("#FF9D00"),
-    hex_color("#FF5A00"),
-    hex_color("#FF1E00"),
+    hex_color("#FFD54A"),  # yellow
+    hex_color("#FFB300"),  # golden yellow
+    hex_color("#FF9D00"),  # orange
+    hex_color("#FF8000"),  # bright orange
+    hex_color("#FF5A00"),  # orange-red
+    hex_color("#FF3D00"),  # red-orange
+    hex_color("#FF1E00"),  # red
+    hex_color("#D50000"),  # deep red
 ]
 
 
-def burning_display(fish):
+def burning_display(state, fish, debug):
+    message = random.choice(CATCH_DIALOGUES["burning"])
+
     animated_variant_display(
+        state,
         fish,
-        message="Your fish were caught in a Magma Stream",
+        debug,
+        message=message,
         name_text="🔥 Burning {name} 🔥",
         variant_text="🔥 Burning 🔥",
         colors=FIRE_COLORS,
@@ -195,24 +259,62 @@ def burning_display(fish):
         speed=0.15,
     )
 
+
+def burning_lost_display(state, fish, debug):
+    rarity = fish["rarity"]
+    rarity_color = RARITY_COLORS[rarity]
+
+    #name = f"🔥 {FIRE_COLORS[0]}Burning {fish['name']}{RESET}"
+    name = gradient_text(
+        f"🔥 Burning {fish['name']}",
+        FIRE_COLORS,
+    )
+
+    print(
+        f"Your {name}"
+        f" - ({rarity_color}{rarity.capitalize()}{RESET}) "
+        f"escaped..."
+    )
+
 URANIUM_COLORS = [
-    hex_color("#7CFF4F"),
+    hex_color("#66FF33"),
     hex_color("#00FF66"),
+    hex_color("#00E676"),
     hex_color("#00C853"),
-    hex_color("#087F23"),
+    hex_color("#00A83B"),
 ]
 
 
-def uranium_display(fish):
+def uranium_display(state, fish, debug):
+    message = random.choice(CATCH_DIALOGUES["uranium"])
+
     animated_variant_display(
+        state,
         fish,
-        message="Your fish might have escaped a Science lab",
+        debug,
+        message=message,
         name_text="⚠️ Radioactive {name} ⚠️",
         variant_text="Uranium",
         colors=URANIUM_COLORS,
         duration=1.2,
-        speed=0.08,
-        uniform=True,
+        speed=0.15,
+        uniform=False,
+    )
+
+def uranium_lost_display(state, fish, debug):
+    rarity = fish["rarity"]
+    rarity_color = RARITY_COLORS[rarity]
+
+    name = gradient_text(
+        f"⚠️ Radioactive {fish['name']}",
+        URANIUM_COLORS,
+    )
+
+    print(
+        f"A {name}"
+        f" - ({rarity_color}{rarity.capitalize()}{RESET}) "
+        f"had activated its shiniest, distracted you "
+        f"and swam away..."
     )
 
 SHINY_COLORS = [
@@ -234,15 +336,34 @@ SHINY_COLORS = [
     hex_color("#8000FF"),  
     hex_color("#4D00FF"),  
 ]
-def shiny_display(fish):
+def shiny_display(state, fish, debug):
+    message = random.choice(CATCH_DIALOGUES["shiny"])
+
     animated_variant_display(
+        state,
         fish,
-        message="Your fish might have escaped a Science lab",
+        debug,
+        message=message,
         name_text="💫 Shiny {name} 💫",
         variant_text="Shiny",
         colors=SHINY_COLORS,
         duration=2,
         speed=0.05,
+    )
+    
+def shiny_lost_display(state, fish, debug):
+    rarity = fish["rarity"]
+    rarity_color = RARITY_COLORS[rarity]
+
+    name = gradient_text(
+        f"💫 Shiny {fish['name']}",
+        SHINY_COLORS,
+    )
+
+    print(
+        f"Your {name}"
+        f" - ({rarity_color}{rarity.capitalize()}{RESET}) "
+        f"escaped into the darkness..."
     )
 
 SHADOW_COLORS = [ 
@@ -254,10 +375,14 @@ SHADOW_COLORS = [
     hex_color("#101010"), 
     hex_color("#0A0A0A"), 
 ]
-def shadow_display(fish):
+def shadow_display(state, fish, debug):
+    message = random.choice(CATCH_DIALOGUES["shadow"])
+
     animated_variant_display(
+        state,
         fish,
-        message="Your fish befriended the dark side",
+        debug,
+        message=message,
         name_text="👻 Shadow {name} 👻",
         variant_text="Shadow",
         colors=SHADOW_COLORS,
@@ -265,6 +390,20 @@ def shadow_display(fish):
         speed=0.05,
     )
 
+def shadow_lost_display(state, fish, debug):
+    rarity = fish["rarity"]
+    rarity_color = RARITY_COLORS[rarity]
+
+    name = gradient_text(
+        f"👻 Shadow {fish['name']}",
+        SHADOW_COLORS,
+    )
+
+    print(
+        f"Your {name}"
+        f" - ({rarity_color}{rarity.capitalize()}{RESET}) "
+        f"escaped into the darkness..."
+    )
 
 '''
 font mapping
@@ -303,3 +442,23 @@ def small_text(text):
         SMALL_ALPHABET.get(char.lower(), char)
         for char in text
     )
+
+VARIANT_CATCH_DISPLAYS = {
+    "normal": normal_display,
+    "baby": baby_display,
+    "large": large_display,
+    "burning": burning_display,
+    "uranium": uranium_display,
+    "shiny": shiny_display,
+    "shadow": shadow_display,
+}
+
+VARIANT_LOST_DISPLAYS = {
+    "normal": normal_lost_display,
+    "baby": baby_lost_display,
+    "large": large_lost_display,
+    "burning": burning_lost_display,
+    "uranium": uranium_lost_display,
+    "shiny": shiny_lost_display,
+    "shadow": shadow_lost_display,
+}

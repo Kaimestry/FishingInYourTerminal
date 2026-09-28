@@ -22,31 +22,24 @@ def print_help():
 '''
 COMMAND DISPLAY
 '''
-
-def display_catch(fish):
+def display_catch(state, fish, debug):
     variant = fish["variant"]
 
-    if variant == "normal":
-        normal_display(fish)
+    display_function = VARIANT_CATCH_DISPLAYS[variant]
+    display_function(state, fish, debug)
 
-    elif variant == "baby":
-        baby_display(fish)
+    print()
+    print(f"Fish Value: {YELLOW}{fish['money']:,} (G){RESET}")
 
-    elif variant == "large":
-        large_display(fish)
 
-    elif variant == "burning":
-        burning_display(fish)
+def display_lost_fish(state, fish, debug):
+    variant = fish["variant"]
 
-    elif variant == "uranium":
-        uranium_display(fish)
+    display_function = VARIANT_LOST_DISPLAYS[variant]
+    display_function(state, fish, debug)
 
-    elif variant == "shiny":
-        shiny_display(fish)
 
-    elif variant == "shadow":
-        shadow_display(fish)
-        
+
 def display_inventory():
     recent_fish = [
         {"name": "Salmon", "rarity": "common"},

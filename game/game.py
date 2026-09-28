@@ -1,8 +1,10 @@
+#game/game.py
+
 from game.data.commands import commands
 from ui.terminal import clear_terminal
 
 
-def start_game():
+def start_game(state, debug):
     clear_terminal()
     print(
         f'Welcome to Fishing in Terminal!'
@@ -25,7 +27,7 @@ def start_game():
 
         clear_terminal()
 
-        result = selected_command["function"]()
+        result = selected_command["function"](state, debug)
 
         if result is False:
             break

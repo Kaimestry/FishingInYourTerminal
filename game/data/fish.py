@@ -1,3 +1,5 @@
+#game/data/fish.py
+
 fish_list = [
     {"name": "Sardine", "rarity": "common"},
     {"name": "Anchovy", "rarity": "common"},
@@ -24,13 +26,3 @@ fish_list = [
     {"name": "Whale Shark", "rarity": "legendary"},
     {"name": "Blue Whale", "rarity": "legendary"},
 ]
-
-variant_chances = {
-    "normal": 0.,
-    "baby": 0,
-    "large": 0,
-    "burning": 0.05,
-    "uranium": 0.05,
-    "shiny": 0.2,
-    "shadow": 0.8,
-}
