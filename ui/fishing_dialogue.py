@@ -2,9 +2,6 @@ import random
 import time
 
 from game.data.dialogues import FISH_WAITING_DIALOGUES
-
-
-
 def fishing_dialogue(state, debug):
     if state.debug_mode and debug.skip_dialogue:
         return

@@ -1,7 +1,10 @@
 #game/data/baits.py
 
 BAITS = {
-    "none": {
+    "basic": {
+        "label": "Basic 🪱",
+        "style": None,
+        
         "luck": {
             "catch": 0.00,
             "money": 0.00,

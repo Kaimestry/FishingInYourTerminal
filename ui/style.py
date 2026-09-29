@@ -57,6 +57,8 @@ def text_box(box_type, width=40, text=""):
 
         return (" " * left) + text + (" " * right)
 
+def line(length, character="-"):
+    return character * length
 
 '''
 COLOR
@@ -154,3 +156,7 @@ def animate_frame(
 
         offset += 1
 
+
+def pad_text(text, width):
+    visible_length = len(ANSI_PATTERN.sub("", text))
+    return text + " " * max(0, width - visible_length)

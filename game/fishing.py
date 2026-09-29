@@ -34,19 +34,31 @@ def fish(state):
         "caught": caught,
     }
 
+def get_bait(state):
+    bait_id = state.equipped["bait"]
+
+    if bait_id is None:
+        return None
+
+    return BAITS[bait_id]
 
 def get_luck(state, luck_type):
-    rod_luck = RODS[state.rod]["luck"][luck_type]
-    bait_luck = BAITS[state.bait]["luck"][luck_type]
+    rod = RODS[state.equipped["rod"]]
+    bait = get_bait(state)
+
+    rod_luck = rod["luck"][luck_type]
+    bait_luck = bait["luck"][luck_type] if bait else 0
 
     return rod_luck + bait_luck
 
-
 def roll_catch(state):
-    rod = RODS[state.rod]["luck"]["catch"]
-    bait = BAITS[state.bait]["luck"]["catch"]
+    rod = state.equipped["rod"]
+    bait = get_bait(state)
 
-    total = rod + bait
+    rod_catch = RODS[rod]["luck"]["catch"]
+    bait_catch = bait["luck"]["catch"] if bait else 0
+
+    total = rod_catch + bait_catch
 
     roll = random.random()
 
@@ -54,14 +66,17 @@ def roll_catch(state):
 
 
 def roll_rarity(state):
-    rod = RODS[state.rod]["rarity"]
-    bait = BAITS[state.bait]["rarity"]
+    rod = RODS[state.equipped["rod"]]["rarity"]
+    bait = get_bait(state)
 
     roll = random.random()
     cumulative = 0
 
     for rarity in rod:
-        total = rod[rarity] + bait[rarity]
+        rod_chance = rod[rarity]
+        bait_chance = bait["rarity"][rarity] if bait else 0
+
+        total = rod_chance + bait_chance
         cumulative += total
 
         if roll <= cumulative:
@@ -69,14 +84,17 @@ def roll_rarity(state):
 
 
 def roll_variant(state):
-    rod = RODS[state.rod]["variants"]
-    bait = BAITS[state.bait]["variants"]
+    rod = RODS[state.equipped["rod"]]["variants"]
+    bait = get_bait(state)
 
     roll = random.random()
     cumulative = 0
 
     for variant in rod:
-        total = rod[variant] + bait[variant]
+        rod_chance = rod[variant]
+        bait_chance = bait["variants"][variant] if bait else 0
+
+        total = rod_chance + bait_chance
         cumulative += total
 
         if roll <= cumulative:

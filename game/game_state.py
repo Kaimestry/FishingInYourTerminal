@@ -4,16 +4,21 @@ class GameState:
         self.money = 1000
 
         self.inventory = {
+            "rods": ["debug"],
+            "baits": {
+                "basic": 5,
+            },
             "fish": [],
-            "rods": [],
-            "baits": [],
             "tanks": [],
-            "food": [],
+            "food": {},
+            "buckets": [
+                "basic",
+            ],
         }
 
         self.equipped = {
             "rod": "debug",
-            "bait": "none",
+            "bait": None,
             "bucket": "basic",
         }
 
@@ -31,6 +36,6 @@ class GameState:
 
 class DebugState:
     def __init__(self):
-        self.skip_animation = False
+        self.skip_animation = True
         self.cooldown_speed = 0
-        self.skip_dialogue = False
+        self.skip_dialogue = True

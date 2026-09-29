@@ -1,4 +1,5 @@
 import os
+from ui.display_inventory import *
 from ui.style import RARITY_COLORS, RESET, YELLOW, BLUE, text_box
 from ui.variant_style import *
 
@@ -40,46 +41,14 @@ def display_lost_fish(state, fish, debug):
 
 
 
-def display_inventory():
-    recent_fish = [
-        {"name": "Salmon", "rarity": "common"},
-        {"name": "Mackerel", "rarity": "common"},
-        {"name": "Swordfish", "rarity": "rare"},
-        {"name": "Cod", "rarity": "common"},
-        {"name": "Tuna", "rarity": "common"},
-        {"name": "Great White Shark", "rarity": "legendary"},
-    ]
-
+def display_inventory(state, debug):
     rod = "Basic Fishing Rod"
     bait = "Worm × 12"
     money = 1250
 
     #PRINTING
-    box_length = 40
-    print(text_box("t", box_length))
-    print(text_box("text", box_length, "INVENTORY"))
-    print(text_box("text", box_length, f"{YELLOW}MONEY - {money:,} (G){RESET}"))
-    print(text_box("s", box_length))
-
-    print()
-    print("  RECENT CATCHES                          ")
-    print("  ──────────────────────────────────────  ")
-
-    for fish in recent_fish:
-        color = RARITY_COLORS[fish["rarity"]]
-
-        print(
-            f"  🎣 {color}{fish['name']:<25} {fish['rarity'].capitalize():<12}{RESET}"
-            )
-
-    print()
-    print("  ──────────────────────────────────────  ")
-    print(f"  ROD - 🎣 {rod}")
-    print(f"  BAIT - 🪱  {bait}")
-    print()
-
-    print(text_box("s", box_length))
-    print(text_box("text", box_length, f"{BLUE}inv!fish{RESET} → View all fish"))
-    print(text_box("text", box_length, f"{BLUE}inv!rod{RESET} → View all rods"))
-    print(text_box("text", box_length, f"{BLUE}inv!bait{RESET} → View all baits"))
-    print(text_box("b", box_length))
+    box_len = get_recent_catch_row_length(state) + 2
+    inv_header(state, box_len)
+    display_recent_caught_fish(state, box_len)
+    display_equipments(state, box_len)
+    inv_footer(state, box_len)
