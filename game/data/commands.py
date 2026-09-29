@@ -11,8 +11,13 @@ def help_command():
 
 
 def fish_command(state, debug):
+    if is_bucket_full(state):
+        print("Your bucket is full now! Empty it now.")
+        return
+
     fishing_dialogue(state, debug)
     clear_terminal()
+
     caught_fish = fish(state)
 
     if caught_fish["caught"]:
@@ -24,11 +29,18 @@ def fish_command(state, debug):
         add_caught_fish(state, caught_fish)
 
         display_catch(state, caught_fish, debug)
+
     else:
         display_lost_fish(state, caught_fish, debug)
 
 def inventory_command(state, debug):
     display_inventory(state, debug)
+
+def view_bucket(state, debug):
+    display_bucket(state, debug)
+
+def sell_bucket(state, debug):
+    pass
 
 
 def quit_command(state):
@@ -80,6 +92,16 @@ commands = {
     "inventory": {
             "aliases": ["inv"],
             "description": "Open inventory",
+            "function": inventory_command,
+        },
+    "bucket": {
+        "aliases": ["inv!b"],
+        "description": "View fish in bucket",
+        "function": view_bucket,
+    },
+    "sell_bucket": {
+            "aliases": ["inv!sell_b"],
+            "description": "Sell all fish in equipped bucket",
             "function": inventory_command,
         },
     "quit": {

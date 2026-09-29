@@ -1,4 +1,5 @@
 FISH_WAITING_DIALOGUES = [
+    "You cast your line into the vast open ocean.",
     "A fish is interested.....",
     "Something is nibbling.....",
     "You feel something tugging at the line.....",

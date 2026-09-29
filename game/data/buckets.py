@@ -1,16 +1,19 @@
 BUCKETS = {
     "basic": {
-        "name": "Basic Bucket",
+        "label": "Basic Bucket",
+        "style": None,
         "capacity": 10,
     },
 
     "large": {
-        "name": "Large Bucket",
+        "label": "Large Bucket",
+        "style": None,
         "capacity": 25,
     },
 
     "industrial": {
-        "name": "Industrial Bucket",
+        "label": "Industrial Bucket",
+        "style": None,
         "capacity": 50,
     },
 }

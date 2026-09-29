@@ -4,7 +4,7 @@ class GameState:
         self.money = 1000
 
         self.inventory = {
-            "rods": ["debug"],
+            "rods": ["debug, advanced"],
             "baits": {
                 "basic": 5,
             },
@@ -17,7 +17,7 @@ class GameState:
         }
 
         self.equipped = {
-            "rod": "debug",
+            "rod": "advanced",
             "bait": None,
             "bucket": "basic",
         }
