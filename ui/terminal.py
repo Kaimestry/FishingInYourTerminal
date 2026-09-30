@@ -1,4 +1,6 @@
 import os
+from game.inventory import sell_all_fish
+from ui.display_bucket import *
 from ui.display_inventory import *
 from ui.style import *
 from ui.variant_style import *
@@ -101,7 +103,6 @@ def display_bucket(state, debug):
         print()
 
     inv_footer(state, box_len=box_len, text=f'Use {BLUE}sell_b{RESET} to empty bucket')
-
 
 def debug_command(state, debug):
     print("=== DEBUG STATS ===")

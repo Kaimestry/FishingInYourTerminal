@@ -12,7 +12,7 @@ def help_command(state, debug):
 
 def fish_command(state, debug):
     if is_bucket_full(state):
-        print("Your bucket is full now! Empty it now.")
+        print(f"Your bucket is full now! Enter {BLUE}sell_bucket{RESET} to empty it!")
         return
 
     fishing_dialogue(state, debug)
@@ -40,7 +40,10 @@ def view_bucket(state, debug):
     display_bucket(state, debug)
 
 def sell_bucket(state, debug):
-    pass
+    display_sellbucket_result(state)
+    sell_all_fish(state)
+
+    
 
 
 def quit_command(state):
@@ -76,7 +79,7 @@ commands = {
     "sell_bucket": {
             "aliases": ["sell_b"],
             "description": "Sell all fish in equipped bucket",
-            "function": inventory_command,
+            "function": sell_bucket,
         },
     "quit": {
         "aliases": ["q"],

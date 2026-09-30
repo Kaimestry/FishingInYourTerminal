@@ -20,3 +20,16 @@ def is_bucket_full(state):
     fish_count = len(state.inventory["fish"])
 
     return fish_count >= capacity
+
+def sell_all_fish(state):
+    fish_inventory = state.inventory["fish"]
+
+    if not fish_inventory:
+        return 0
+
+    total_gold = sum(fish["money"] for fish in fish_inventory)
+
+    state.money += total_gold
+    state.inventory["fish"].clear()
+
+    return total_gold

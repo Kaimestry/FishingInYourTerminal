@@ -8,7 +8,18 @@ class GameState:
             "baits": {
                 "basic": 5,
             },
-            "fish": [],
+            "fish": [
+                    {'name': 'Minnow', 'rarity': 'common', 'variant': 'burning', 'money': 36, 'origin': 'caught'},
+                    {'name': 'Cod', 'rarity': 'common', 'variant': 'baby', 'money': 25, 'origin': 'caught'},
+                    {'name': 'Bluefish', 'rarity': 'uncommon', 'variant': 'normal', 'money': 95, 'origin': 'caught'},
+                    {'name': 'Whitefish', 'rarity': 'common', 'variant': 'normal', 'money': 15, 'origin': 'caught'},
+                    {'name': 'Guppy', 'rarity': 'common', 'variant': 'normal', 'money': 22, 'origin': 'caught'},
+                    {'name': 'Zander', 'rarity': 'uncommon', 'variant': 'normal', 'money': 78, 'origin': 'caught'},
+                    {'name': 'Giant Sea Bass', 'rarity': 'epic', 'variant': 'normal', 'money': 496, 'origin': 'caught'},
+                    {'name': 'Salmon', 'rarity': 'common', 'variant': 'normal', 'money': 29, 'origin': 'caught'},
+                    {'name': 'Mullet', 'rarity': 'common', 'variant': 'normal', 'money': 24, 'origin': 'caught'},
+                    {'name': 'Smelt', 'rarity': 'common', 'variant': 'normal', 'money': 10, 'origin': 'caught'},
+                    ],
             "tanks": [],
             "food": {},
             "buckets": [

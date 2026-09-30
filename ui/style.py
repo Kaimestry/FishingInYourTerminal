@@ -1,3 +1,12 @@
+def hex_color(hex_code):
+    hex_code = hex_code.lstrip("#")
+
+    r = int(hex_code[0:2], 16)
+    g = int(hex_code[2:4], 16)
+    b = int(hex_code[4:6], 16)
+
+    return f"\033[38;2;{r};{g};{b}m"
+
 RESET = "\033[0m"
 
 RED = "\033[31m"
@@ -7,6 +16,7 @@ BLUE = "\033[34m"
 MAGENTA = "\033[35m"
 CYAN = "\033[36m"
 WHITE = "\033[37m"
+PINK = hex_color("#E9B3FF")
 
 RARITY_COLORS = {
     "common": WHITE,
@@ -24,6 +34,10 @@ import time
 import sys
 
 ANSI_PATTERN = re.compile(r"\033\[[0-9;]*m")
+def strip_ansi(text):
+    import re
+    ANSI_PATTERN = re.compile(r"\x1b\[[0-9;]*m")
+    return ANSI_PATTERN.sub("", text)
 
 
 def clear_terminal():
@@ -63,14 +77,7 @@ def line(length, character="-"):
 '''
 COLOR
 '''
-def hex_color(hex_code):
-    hex_code = hex_code.lstrip("#")
 
-    r = int(hex_code[0:2], 16)
-    g = int(hex_code[2:4], 16)
-    b = int(hex_code[4:6], 16)
-
-    return f"\033[38;2;{r};{g};{b}m"
 
 def changing_color(text, colors, offset):
     colored = ""

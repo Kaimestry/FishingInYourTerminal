@@ -128,8 +128,6 @@ def normal_lost_display(state, fish, debug):
         f" - ({rarity_color}{rarity.capitalize()}{RESET}) "
         f"escaped..."
     )
-
-BABY_COLOR = hex_color("#E9B3FF")
 def baby_display(state, fish, debug):
     rarity = fish["rarity"]
     rarity_color = RARITY_COLORS[rarity]
@@ -158,7 +156,7 @@ def baby_display(state, fish, debug):
         f"{small_text('Rarity:')} "
         f"{rarity_color}{small_text(rarity.capitalize())}{RESET}"
         f"{small_text(' - Variant:')} "
-        f"{BABY_COLOR}{small_text('Baby')}{RESET}"
+        f"{PINK}{small_text('Baby')}{RESET}"
     )
 
     print(

@@ -32,7 +32,7 @@ def inventory_fish_name(fish):
         return name
 
     if variant == "baby":
-        return small_text(f"Baby {name}")
+        return PINK + small_text(f"Baby {name}") + RESET
 
     if variant == "large":
         return BOLD + f"Large {name}" + RESET
@@ -100,42 +100,6 @@ def display_recent_caught_fish(state, box_len):
         )
         print()
 
-def strip_ansi(text):
-    import re
-    ANSI_PATTERN = re.compile(r"\x1b\[[0-9;]*m")
-    return ANSI_PATTERN.sub("", text)
-
-def get_bucket_row_length(state):
-    fish_inventory = state.inventory["fish"]
-
-    if not fish_inventory:
-        return 40
-
-    return max(
-        5
-        + 30
-        + 15
-        + len(f"{fish['money']:,} (G)")
-        for fish in fish_inventory
-    )
-
-def display_bucket_capacity(state):
-    bucket_id = state.equipped["bucket"]
-    bucket = BUCKETS[bucket_id]
-
-    bucket_name = bucket["label"]
-    capacity = bucket["capacity"]
-    fish_count = len(state.inventory["fish"])
-
-    capacity_ratio = f"{fish_count}/{capacity}"
-
-    if is_bucket_full(state):
-        return f"{bucket_name}: {RED}{capacity_ratio} (FULL){RESET}"
-
-    return f"{bucket_name}: {capacity_ratio}"
-
-
-    
 def display_item(item_data):
     label = item_data["label"]
     style = item_data["style"]
