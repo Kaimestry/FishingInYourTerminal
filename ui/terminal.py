@@ -6,11 +6,11 @@ from ui.variant_style import *
 def start_ins():
     print(f'🎣 Welcome to {BLUE}Fish In Terminal{RESET} 🎣')
     print()
-    print(f"- Start fishing by entering the command {BLUE}'fish'{RESET}")
-    print(f"- To view all availble commands, enter{MAGENTA}'help'{RESET}")
+    print(f"- Start fishing by entering the command {BLUE}fish{RESET}")
+    print(f"- To view all availble commands, enter {MAGENTA}help{RESET}")
     pass
 
-def print_help():
+def print_help(state, debug):
     from game.data.commands import commands
 
     print("Available commands:")
@@ -55,9 +55,9 @@ def display_inventory(state, debug):
     #PRINTING
     inv_header(state, box_len, title="INVENTORY", subtitle=text)
     display_recent_caught_fish(state, box_len)
-    display_bucket_capacity(state, box_len)
+    display_bucket_capacity(state)
     display_equipments(state, box_len)
-    inv_footer(state, box_len)
+    inv_footer(state, box_len=box_len, text=f'Use {BLUE}inv!help{RESET} to learn more')
 
 def display_bucket(state, debug):
     box_len = get_bucket_row_length(state) + 2
@@ -79,7 +79,7 @@ def display_bucket(state, debug):
             )
         )        
         print()
-        inv_footer(state, box_len)
+        inv_footer(state, box_len=box_len, text=f'Start fishing to fill bucket')
         return
 
     fish_inventory = state.inventory["fish"]
@@ -100,4 +100,32 @@ def display_bucket(state, debug):
         )
         print()
 
-    inv_footer(state, box_len)
+    inv_footer(state, box_len=box_len, text=f'Use {BLUE}sell_b{RESET} to empty bucket')
+
+
+def debug_command(state, debug):
+    print("=== DEBUG STATS ===")
+
+    print(f"Fish caught: {state.fish_caught}")
+    print()
+
+    print("Variants:")
+    for variant, amount in state.variant_caught.items():
+        print(f"  {variant.capitalize()}: {amount}")
+
+    print()
+    print("=== INVENTORY ===")
+
+    for category, items in state.inventory.items():
+        print(f"{category.capitalize()}:")
+
+        if not items:
+            print("  (empty)")
+        else:
+            if isinstance(items, list):
+                for item in items:
+                    print(f"  {item}")
+            else:
+                print(f"  {items}")
+
+        print()

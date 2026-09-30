@@ -6,8 +6,8 @@ from ui.fishing_dialogue import fishing_dialogue
 from ui.terminal import *
 
 
-def help_command():
-    print_help()
+def help_command(state, debug):
+    print_help(state, debug)
 
 
 def fish_command(state, debug):
@@ -50,32 +50,6 @@ def quit_command(state):
 def demo_command(state, debug):
     debug_command(state, debug)
 
-def debug_command(state, debug):
-    print("=== DEBUG STATS ===")
-
-    print(f"Fish caught: {state.fish_caught}")
-    print()
-
-    print("Variants:")
-    for variant, amount in state.variant_caught.items():
-        print(f"  {variant.capitalize()}: {amount}")
-
-    print()
-    print("=== INVENTORY ===")
-
-    for category, items in state.inventory.items():
-        print(f"{category.capitalize()}:")
-
-        if not items:
-            print("  (empty)")
-        else:
-            if isinstance(items, list):
-                for item in items:
-                    print(f"  {item}")
-            else:
-                print(f"  {items}")
-
-        print()
 
 
 commands = {
@@ -95,12 +69,12 @@ commands = {
             "function": inventory_command,
         },
     "bucket": {
-        "aliases": ["inv!b"],
+        "aliases": ["b"],
         "description": "View fish in bucket",
         "function": view_bucket,
     },
     "sell_bucket": {
-            "aliases": ["inv!sell_b"],
+            "aliases": ["sell_b"],
             "description": "Sell all fish in equipped bucket",
             "function": inventory_command,
         },

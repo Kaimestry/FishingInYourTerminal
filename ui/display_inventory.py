@@ -160,12 +160,12 @@ def display_equipments(state, box_len):
     rod = display_item(rod_data)
     bait = display_item(bait_data) if bait_data else " "
 
-    print(f"  ROD  - {rod}")
+    print(f"ROD  - {rod}")
     print()
-    print(f"  BAIT - {bait}")
+    print(f"BAIT - {bait}")
     print()
 
-def inv_footer(state, box_len):
+def inv_footer(state, text, box_len):
     print(text_box("s", box_len))
-    print(text_box("text", box_len, f"Use {BLUE}inv!help{RESET} to learn more"))
+    print(text_box("text", box_len, f"{text}"))
     print(text_box("b", box_len))
