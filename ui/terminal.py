@@ -1,8 +1,14 @@
 import os
 from ui.display_inventory import *
-from ui.style import RARITY_COLORS, RESET, YELLOW, BLUE, text_box
+from ui.style import *
 from ui.variant_style import *
 
+def start_ins():
+    print(f'🎣 Welcome to {BLUE}Fish In Terminal{RESET} 🎣')
+    print()
+    print(f"- Start fishing by entering the command {BLUE}'fish'{RESET}")
+    print(f"- To view all availble commands, enter{MAGENTA}'help'{RESET}")
+    pass
 
 def print_help():
     from game.data.commands import commands

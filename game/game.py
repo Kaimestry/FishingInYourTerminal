@@ -1,14 +1,12 @@
 #game/game.py
 
 from game.data.commands import commands
-from ui.terminal import clear_terminal
+from ui.terminal import clear_terminal, start_ins
 
 
 def start_game(state, debug):
     clear_terminal()
-    print(
-        f'Welcome to Fishing in Terminal!'
-    )
+    start_ins()
 
     while True:
         print()
